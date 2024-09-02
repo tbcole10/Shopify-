@@ -1,10 +1,13 @@
 trigger:
   branches:
     include:
-      - main  # Change this to your default branch if different
+      - main
 
 pool:
   vmImage: 'ubuntu-latest'
+
+variables:
+  - group: shopify
 
 steps:
 - task: Checkout@1
@@ -12,7 +15,7 @@ steps:
     repository: 'self'
 
 - script: |
-    curl -s https://shopify.github.io/themekit/scripts/install.sh | sudo bash
+    curl -s https://shopify.github.io/themekit/scripts/install.sh | bash
   displayName: 'Install Shopify Theme Kit'
 
 - script: |
