@@ -1,26 +1,24 @@
 trigger:
-- main
+  branches:
+    include:
+      - main  # Change this to your default branch if different
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: UseNode@1
+- task: Checkout@1
   inputs:
-    versionSpec: '14.x'
-  displayName: 'Use Node.js 14.x'
+    repository: 'self'
 
 - script: |
-    npm install -g shopify-cli
-  displayName: 'Install Shopify CLI'
+    curl -s https://shopify.github.io/themekit/scripts/install.sh | sudo bash
+  displayName: 'Install Shopify Theme Kit'
 
 - script: |
-    # Login to Shopify
-    shopify login --store $(SHOPIFY_STORE) --api-key $(SHOPIFY_API_KEY) --password $(SHOPIFY_API_PASSWORD)
-    # Deploy theme
-    shopify theme push --theme <YOUR_THEME_ID> --env production
-  displayName: 'Deploy Shopify Theme'
+    theme deploy --env production
+  displayName: 'Deploy Theme'
   env:
-    SHOPIFY_API_KEY: 8b37ae40f7472537d6904e8589fb4346
-    SHOPIFY_API_PASSWORD: 656447d8c0683221df8f6eb5841e1df1
-    SHOPIFY_STORE: quick-start-c4c85419.myshopify.com
+    SHOPIFY_API_KEY: $(SHOPIFY_API_KEY)
+    SHOPIFY_API_PASSWORD: $(SHOPIFY_API_PASSWORD)
+    SHOPIFY_STORE: $(SHOPIFY_STORE)
