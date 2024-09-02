@@ -7,7 +7,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  - group: shopify
+  - group: SHOPIFY  # Ensure this matches exactly
 
 steps:
 - task: Checkout@1
